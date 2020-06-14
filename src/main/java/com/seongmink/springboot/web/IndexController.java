@@ -1,5 +1,6 @@
 package com.seongmink.springboot.web;
 
+import com.seongmink.springboot.config.auth.LoginUser;
 import com.seongmink.springboot.config.auth.dto.SessionUser;
 import com.seongmink.springboot.service.posts.PostsService;
 import com.seongmink.springboot.web.dto.PostsResponseDto;
@@ -19,10 +20,9 @@ public class IndexController {
     private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("posts", postsService.findAllDesc());
+    public String index(Model model, @LoginUser SessionUser user) {
 
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        model.addAttribute("posts", postsService.findAllDesc());
 
         if(user != null) {
             model.addAttribute("userName", user.getName());
